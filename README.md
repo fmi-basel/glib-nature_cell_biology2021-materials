@@ -18,4 +18,4 @@ If you decide to use materials from this repository in a published work, please 
 
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under 
