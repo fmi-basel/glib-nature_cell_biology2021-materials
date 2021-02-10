@@ -11,8 +11,10 @@ setup(name='glib-ncb2021-timelapse',
       install_requires=[
           'h5py==2.10',
           'scikit-image==0.16.2',
+          'numpy==1.14.5',
           f'tensorflow{TF_VERSION}',
-          'scipy==1.5.0',
+          'scipy==1.5.0',   # explicitly define these indirect dependencies here
+          'matplotlib<3.0', # in order to fix issues with pip's resolver.
           'dl-utils @ git+https://github.com/fmi-basel/dl-utils.git@pre-tf2',
           'tqdm',
       ],
