@@ -1,14 +1,14 @@
 # Cell fate coordinates mechano-osmotic forces in intestinal crypt formation - Materials
   
-This repository contains three branches with materials of the Paper "Cell fate coordinates mechano-osmotic forces in intestinal crypt formation":
+This repository contains three subfolders with methods of the Paper "Cell fate coordinates mechano-osmotic forces in intestinal crypt formation":
 
-Image Processing Pipeline for 2D/3D organoid segmentation - time course samples (based on DAPI signal)
+* ```time-course/```: Image Processing Pipeline for 2D/3D organoid segmentation - time course samples (based on DAPI signal)
 
-Image Processing Pipeline for 2D/3D organoid segmentation - time lapse samples (based on LifeAct signal)
+* ```time-lapse/```: Image Processing Pipeline for 2D/3D organoid segmentation - time lapse samples (based on LifeAct signal)
 
-Measurement of Villi distance
+* ```TODO/```: Measurement of Villi distance
 
-Further information are given in the README.md files of the corresponding branches.
+Further information are given in the README.md files of the corresponding subfolders. Note that you may require different virtual environments for the different parts due to conflicting dependencies.
 
 
 # Citation 
