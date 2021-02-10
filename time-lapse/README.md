@@ -34,4 +34,4 @@ You can apply a segmentation model from ```models/``` to a set of new images:
 run_lumen_segmentation /path/to/some/*.tif  --output /path/to/output/folder/ --model models/organoid/v0/model_best.h5
 ```
 
-Make sure that your environment is active before calling the script.
+Make sure that your environment is active before calling the script (e.g. using ```conda activate time-lapse```).
