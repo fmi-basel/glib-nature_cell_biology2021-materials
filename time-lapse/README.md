@@ -26,6 +26,22 @@ pip install .
 
 Note that certain versions of ```pip``` might have trouble resolving the dependencies as there are some older versions involved. In such a case, try using ```pip install --use-deprecated=legacy-resolver .``` instead.
 
+## Running tests
+
+In order to run the tests, you'll need:
+
+```
+pip install pytest-console-scripts
+```
+
+and then you can run all tests like this:
+
+```
+pytest tests/
+```
+
+Again, this assumes you have already activated the corresponding environment and you are in the this folder.
+
 ## Run the segmentation
 
 You can apply a segmentation model from ```models/``` to a set of new images:
