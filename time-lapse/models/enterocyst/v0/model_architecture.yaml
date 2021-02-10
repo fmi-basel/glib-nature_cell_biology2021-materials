@@ -1,0 +1,3697 @@
+backend: tensorflow
+class_name: Model
+config:
+  input_layers:
+  - - input
+    - 0
+    - 0
+  layers:
+  - class_name: InputLayer
+    config:
+      batch_input_shape: !!python/tuple
+      - null
+      - null
+      - null
+      - 3
+      dtype: float32
+      name: input
+      sparse: false
+    inbound_nodes: []
+    name: input
+  - class_name: DynamicPaddingLayer
+    config:
+      data_format: channels_last
+      factor: 16
+      name: dpad
+      ndim: 4
+      trainable: false
+    inbound_nodes:
+    - - - input
+        - 0
+        - 0
+        - {}
+    name: dpad
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: &id001 !!python/tuple
+      - 1
+      - 1
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: &id004 !!python/tuple
+      - 1
+      - 1
+      name: c1x1_1
+      padding: same
+      strides: &id002 !!python/tuple
+      - 1
+      - 1
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dpad
+        - 0
+        - 0
+        - {}
+    name: c1x1_1
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_1
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_1
+        - 0
+        - 0
+        - {}
+    name: relu_1
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: &id005 !!python/tuple
+      - 3
+      - 3
+      name: c3x3_1
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_1
+        - 0
+        - 0
+        - {}
+    name: c3x3_1
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_2
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_1
+        - 0
+        - 0
+        - {}
+    name: relu_2
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: &id008 !!python/tuple
+      - 1
+      - 1
+      name: c1x1_3
+      padding: valid
+      strides: &id009 !!python/tuple
+      - 1
+      - 1
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dpad
+        - 0
+        - 0
+        - {}
+    name: c1x1_3
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: &id006 !!python/tuple
+      - 1
+      - 1
+      name: c1x1_2
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_2
+        - 0
+        - 0
+        - {}
+    name: c1x1_2
+  - class_name: Add
+    config:
+      name: add_1
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_3
+        - 0
+        - 0
+        - &id003 {}
+      - - c1x1_2
+        - 0
+        - 0
+        - *id003
+    name: add_1
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_3
+      trainable: false
+    inbound_nodes:
+    - - - add_1
+        - 0
+        - 0
+        - {}
+    name: relu_3
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_4
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_3
+        - 0
+        - 0
+        - {}
+    name: c1x1_4
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_4
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_4
+        - 0
+        - 0
+        - {}
+    name: relu_4
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_2
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_4
+        - 0
+        - 0
+        - {}
+    name: c3x3_2
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_5
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_2
+        - 0
+        - 0
+        - {}
+    name: relu_5
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_5
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_5
+        - 0
+        - 0
+        - {}
+    name: c1x1_5
+  - class_name: Add
+    config:
+      name: add_2
+      trainable: false
+    inbound_nodes:
+    - - - relu_3
+        - 0
+        - 0
+        - &id007 {}
+      - - c1x1_5
+        - 0
+        - 0
+        - *id007
+    name: add_2
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_6
+      trainable: false
+    inbound_nodes:
+    - - - add_2
+        - 0
+        - 0
+        - {}
+    name: relu_6
+  - class_name: Dropout
+    config:
+      name: do_1
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_6
+        - 0
+        - 0
+        - {}
+    name: do_1
+  - class_name: MaxPooling2D
+    config:
+      data_format: channels_last
+      name: down2_1
+      padding: valid
+      pool_size: !!python/tuple
+      - 2
+      - 2
+      strides: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_1
+        - 0
+        - 0
+        - {}
+    name: down2_1
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_6
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_1
+        - 0
+        - 0
+        - {}
+    name: c1x1_6
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_7
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_6
+        - 0
+        - 0
+        - {}
+    name: relu_7
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_3
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_7
+        - 0
+        - 0
+        - {}
+    name: c3x3_3
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_8
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_3
+        - 0
+        - 0
+        - {}
+    name: relu_8
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_8
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_1
+        - 0
+        - 0
+        - {}
+    name: c1x1_8
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_7
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_8
+        - 0
+        - 0
+        - {}
+    name: c1x1_7
+  - class_name: Add
+    config:
+      name: add_3
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_8
+        - 0
+        - 0
+        - &id010 {}
+      - - c1x1_7
+        - 0
+        - 0
+        - *id010
+    name: add_3
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_9
+      trainable: false
+    inbound_nodes:
+    - - - add_3
+        - 0
+        - 0
+        - {}
+    name: relu_9
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_9
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_9
+        - 0
+        - 0
+        - {}
+    name: c1x1_9
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_10
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_9
+        - 0
+        - 0
+        - {}
+    name: relu_10
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_4
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_10
+        - 0
+        - 0
+        - {}
+    name: c3x3_4
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_11
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_4
+        - 0
+        - 0
+        - {}
+    name: relu_11
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_10
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_11
+        - 0
+        - 0
+        - {}
+    name: c1x1_10
+  - class_name: Add
+    config:
+      name: add_4
+      trainable: false
+    inbound_nodes:
+    - - - relu_9
+        - 0
+        - 0
+        - &id011 {}
+      - - c1x1_10
+        - 0
+        - 0
+        - *id011
+    name: add_4
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_12
+      trainable: false
+    inbound_nodes:
+    - - - add_4
+        - 0
+        - 0
+        - {}
+    name: relu_12
+  - class_name: Dropout
+    config:
+      name: do_2
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_12
+        - 0
+        - 0
+        - {}
+    name: do_2
+  - class_name: MaxPooling2D
+    config:
+      data_format: channels_last
+      name: down2_2
+      padding: valid
+      pool_size: !!python/tuple
+      - 2
+      - 2
+      strides: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_2
+        - 0
+        - 0
+        - {}
+    name: down2_2
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_11
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_2
+        - 0
+        - 0
+        - {}
+    name: c1x1_11
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_13
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_11
+        - 0
+        - 0
+        - {}
+    name: relu_13
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_5
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_13
+        - 0
+        - 0
+        - {}
+    name: c3x3_5
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_14
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_5
+        - 0
+        - 0
+        - {}
+    name: relu_14
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_13
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_2
+        - 0
+        - 0
+        - {}
+    name: c1x1_13
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_12
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_14
+        - 0
+        - 0
+        - {}
+    name: c1x1_12
+  - class_name: Add
+    config:
+      name: add_5
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_13
+        - 0
+        - 0
+        - &id012 {}
+      - - c1x1_12
+        - 0
+        - 0
+        - *id012
+    name: add_5
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_15
+      trainable: false
+    inbound_nodes:
+    - - - add_5
+        - 0
+        - 0
+        - {}
+    name: relu_15
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_14
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_15
+        - 0
+        - 0
+        - {}
+    name: c1x1_14
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_16
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_14
+        - 0
+        - 0
+        - {}
+    name: relu_16
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_6
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_16
+        - 0
+        - 0
+        - {}
+    name: c3x3_6
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_17
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_6
+        - 0
+        - 0
+        - {}
+    name: relu_17
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_15
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_17
+        - 0
+        - 0
+        - {}
+    name: c1x1_15
+  - class_name: Add
+    config:
+      name: add_6
+      trainable: false
+    inbound_nodes:
+    - - - relu_15
+        - 0
+        - 0
+        - &id013 {}
+      - - c1x1_15
+        - 0
+        - 0
+        - *id013
+    name: add_6
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_18
+      trainable: false
+    inbound_nodes:
+    - - - add_6
+        - 0
+        - 0
+        - {}
+    name: relu_18
+  - class_name: Dropout
+    config:
+      name: do_3
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_18
+        - 0
+        - 0
+        - {}
+    name: do_3
+  - class_name: MaxPooling2D
+    config:
+      data_format: channels_last
+      name: down2_3
+      padding: valid
+      pool_size: !!python/tuple
+      - 2
+      - 2
+      strides: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_3
+        - 0
+        - 0
+        - {}
+    name: down2_3
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_16
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_3
+        - 0
+        - 0
+        - {}
+    name: c1x1_16
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_19
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_16
+        - 0
+        - 0
+        - {}
+    name: relu_19
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_7
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_19
+        - 0
+        - 0
+        - {}
+    name: c3x3_7
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_20
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_7
+        - 0
+        - 0
+        - {}
+    name: relu_20
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_18
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_3
+        - 0
+        - 0
+        - {}
+    name: c1x1_18
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_17
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_20
+        - 0
+        - 0
+        - {}
+    name: c1x1_17
+  - class_name: Add
+    config:
+      name: add_7
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_18
+        - 0
+        - 0
+        - &id014 {}
+      - - c1x1_17
+        - 0
+        - 0
+        - *id014
+    name: add_7
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_21
+      trainable: false
+    inbound_nodes:
+    - - - add_7
+        - 0
+        - 0
+        - {}
+    name: relu_21
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_19
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_21
+        - 0
+        - 0
+        - {}
+    name: c1x1_19
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_22
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_19
+        - 0
+        - 0
+        - {}
+    name: relu_22
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_8
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_22
+        - 0
+        - 0
+        - {}
+    name: c3x3_8
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_23
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_8
+        - 0
+        - 0
+        - {}
+    name: relu_23
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_20
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_23
+        - 0
+        - 0
+        - {}
+    name: c1x1_20
+  - class_name: Add
+    config:
+      name: add_8
+      trainable: false
+    inbound_nodes:
+    - - - relu_21
+        - 0
+        - 0
+        - &id015 {}
+      - - c1x1_20
+        - 0
+        - 0
+        - *id015
+    name: add_8
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_24
+      trainable: false
+    inbound_nodes:
+    - - - add_8
+        - 0
+        - 0
+        - {}
+    name: relu_24
+  - class_name: Dropout
+    config:
+      name: do_4
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_24
+        - 0
+        - 0
+        - {}
+    name: do_4
+  - class_name: MaxPooling2D
+    config:
+      data_format: channels_last
+      name: down2_4
+      padding: valid
+      pool_size: !!python/tuple
+      - 2
+      - 2
+      strides: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_4
+        - 0
+        - 0
+        - {}
+    name: down2_4
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_21
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_4
+        - 0
+        - 0
+        - {}
+    name: c1x1_21
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_25
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_21
+        - 0
+        - 0
+        - {}
+    name: relu_25
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_9
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_25
+        - 0
+        - 0
+        - {}
+    name: c3x3_9
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_26
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_9
+        - 0
+        - 0
+        - {}
+    name: relu_26
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 1024
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_23
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - down2_4
+        - 0
+        - 0
+        - {}
+    name: c1x1_23
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 1024
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_22
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_26
+        - 0
+        - 0
+        - {}
+    name: c1x1_22
+  - class_name: Add
+    config:
+      name: add_9
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_23
+        - 0
+        - 0
+        - &id016 {}
+      - - c1x1_22
+        - 0
+        - 0
+        - *id016
+    name: add_9
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_27
+      trainable: false
+    inbound_nodes:
+    - - - add_9
+        - 0
+        - 0
+        - {}
+    name: relu_27
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_24
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_27
+        - 0
+        - 0
+        - {}
+    name: c1x1_24
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_28
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_24
+        - 0
+        - 0
+        - {}
+    name: relu_28
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_10
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_28
+        - 0
+        - 0
+        - {}
+    name: c3x3_10
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_29
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_10
+        - 0
+        - 0
+        - {}
+    name: relu_29
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 1024
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_25
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_29
+        - 0
+        - 0
+        - {}
+    name: c1x1_25
+  - class_name: Add
+    config:
+      name: add_10
+      trainable: false
+    inbound_nodes:
+    - - - relu_27
+        - 0
+        - 0
+        - &id017 {}
+      - - c1x1_25
+        - 0
+        - 0
+        - *id017
+    name: add_10
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_30
+      trainable: false
+    inbound_nodes:
+    - - - add_10
+        - 0
+        - 0
+        - {}
+    name: relu_30
+  - class_name: Dropout
+    config:
+      name: do_5
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_30
+        - 0
+        - 0
+        - {}
+    name: do_5
+  - class_name: UpSampling2D
+    config:
+      data_format: channels_last
+      name: up2_1
+      size: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_5
+        - 0
+        - 0
+        - {}
+    name: up2_1
+  - class_name: Concatenate
+    config:
+      axis: -1
+      name: concatenate_1
+      trainable: false
+    inbound_nodes:
+    - - - up2_1
+        - 0
+        - 0
+        - &id018 {}
+      - - do_4
+        - 0
+        - 0
+        - *id018
+    name: concatenate_1
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_26
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_1
+        - 0
+        - 0
+        - {}
+    name: c1x1_26
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_31
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_26
+        - 0
+        - 0
+        - {}
+    name: relu_31
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_11
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_31
+        - 0
+        - 0
+        - {}
+    name: c3x3_11
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_32
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_11
+        - 0
+        - 0
+        - {}
+    name: relu_32
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_28
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_1
+        - 0
+        - 0
+        - {}
+    name: c1x1_28
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_27
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_32
+        - 0
+        - 0
+        - {}
+    name: c1x1_27
+  - class_name: Add
+    config:
+      name: add_11
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_28
+        - 0
+        - 0
+        - &id019 {}
+      - - c1x1_27
+        - 0
+        - 0
+        - *id019
+    name: add_11
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_33
+      trainable: false
+    inbound_nodes:
+    - - - add_11
+        - 0
+        - 0
+        - {}
+    name: relu_33
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_29
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_33
+        - 0
+        - 0
+        - {}
+    name: c1x1_29
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_34
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_29
+        - 0
+        - 0
+        - {}
+    name: relu_34
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_12
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_34
+        - 0
+        - 0
+        - {}
+    name: c3x3_12
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_35
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_12
+        - 0
+        - 0
+        - {}
+    name: relu_35
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 512
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_30
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_35
+        - 0
+        - 0
+        - {}
+    name: c1x1_30
+  - class_name: Add
+    config:
+      name: add_12
+      trainable: false
+    inbound_nodes:
+    - - - relu_33
+        - 0
+        - 0
+        - &id020 {}
+      - - c1x1_30
+        - 0
+        - 0
+        - *id020
+    name: add_12
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_36
+      trainable: false
+    inbound_nodes:
+    - - - add_12
+        - 0
+        - 0
+        - {}
+    name: relu_36
+  - class_name: Dropout
+    config:
+      name: do_6
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_36
+        - 0
+        - 0
+        - {}
+    name: do_6
+  - class_name: UpSampling2D
+    config:
+      data_format: channels_last
+      name: up2_2
+      size: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_6
+        - 0
+        - 0
+        - {}
+    name: up2_2
+  - class_name: Concatenate
+    config:
+      axis: -1
+      name: concatenate_2
+      trainable: false
+    inbound_nodes:
+    - - - up2_2
+        - 0
+        - 0
+        - &id021 {}
+      - - do_3
+        - 0
+        - 0
+        - *id021
+    name: concatenate_2
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_31
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_2
+        - 0
+        - 0
+        - {}
+    name: c1x1_31
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_37
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_31
+        - 0
+        - 0
+        - {}
+    name: relu_37
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_13
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_37
+        - 0
+        - 0
+        - {}
+    name: c3x3_13
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_38
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_13
+        - 0
+        - 0
+        - {}
+    name: relu_38
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_33
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_2
+        - 0
+        - 0
+        - {}
+    name: c1x1_33
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_32
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_38
+        - 0
+        - 0
+        - {}
+    name: c1x1_32
+  - class_name: Add
+    config:
+      name: add_13
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_33
+        - 0
+        - 0
+        - &id022 {}
+      - - c1x1_32
+        - 0
+        - 0
+        - *id022
+    name: add_13
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_39
+      trainable: false
+    inbound_nodes:
+    - - - add_13
+        - 0
+        - 0
+        - {}
+    name: relu_39
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_34
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_39
+        - 0
+        - 0
+        - {}
+    name: c1x1_34
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_40
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_34
+        - 0
+        - 0
+        - {}
+    name: relu_40
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_14
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_40
+        - 0
+        - 0
+        - {}
+    name: c3x3_14
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_41
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_14
+        - 0
+        - 0
+        - {}
+    name: relu_41
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 256
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_35
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_41
+        - 0
+        - 0
+        - {}
+    name: c1x1_35
+  - class_name: Add
+    config:
+      name: add_14
+      trainable: false
+    inbound_nodes:
+    - - - relu_39
+        - 0
+        - 0
+        - &id023 {}
+      - - c1x1_35
+        - 0
+        - 0
+        - *id023
+    name: add_14
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_42
+      trainable: false
+    inbound_nodes:
+    - - - add_14
+        - 0
+        - 0
+        - {}
+    name: relu_42
+  - class_name: Dropout
+    config:
+      name: do_7
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_42
+        - 0
+        - 0
+        - {}
+    name: do_7
+  - class_name: UpSampling2D
+    config:
+      data_format: channels_last
+      name: up2_3
+      size: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_7
+        - 0
+        - 0
+        - {}
+    name: up2_3
+  - class_name: Concatenate
+    config:
+      axis: -1
+      name: concatenate_3
+      trainable: false
+    inbound_nodes:
+    - - - up2_3
+        - 0
+        - 0
+        - &id024 {}
+      - - do_2
+        - 0
+        - 0
+        - *id024
+    name: concatenate_3
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_36
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_3
+        - 0
+        - 0
+        - {}
+    name: c1x1_36
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_43
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_36
+        - 0
+        - 0
+        - {}
+    name: relu_43
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_15
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_43
+        - 0
+        - 0
+        - {}
+    name: c3x3_15
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_44
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_15
+        - 0
+        - 0
+        - {}
+    name: relu_44
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_38
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_3
+        - 0
+        - 0
+        - {}
+    name: c1x1_38
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_37
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_44
+        - 0
+        - 0
+        - {}
+    name: c1x1_37
+  - class_name: Add
+    config:
+      name: add_15
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_38
+        - 0
+        - 0
+        - &id025 {}
+      - - c1x1_37
+        - 0
+        - 0
+        - *id025
+    name: add_15
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_45
+      trainable: false
+    inbound_nodes:
+    - - - add_15
+        - 0
+        - 0
+        - {}
+    name: relu_45
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_39
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_45
+        - 0
+        - 0
+        - {}
+    name: c1x1_39
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_46
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_39
+        - 0
+        - 0
+        - {}
+    name: relu_46
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_16
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_46
+        - 0
+        - 0
+        - {}
+    name: c3x3_16
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_47
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_16
+        - 0
+        - 0
+        - {}
+    name: relu_47
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 128
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_40
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_47
+        - 0
+        - 0
+        - {}
+    name: c1x1_40
+  - class_name: Add
+    config:
+      name: add_16
+      trainable: false
+    inbound_nodes:
+    - - - relu_45
+        - 0
+        - 0
+        - &id026 {}
+      - - c1x1_40
+        - 0
+        - 0
+        - *id026
+    name: add_16
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_48
+      trainable: false
+    inbound_nodes:
+    - - - add_16
+        - 0
+        - 0
+        - {}
+    name: relu_48
+  - class_name: Dropout
+    config:
+      name: do_8
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_48
+        - 0
+        - 0
+        - {}
+    name: do_8
+  - class_name: UpSampling2D
+    config:
+      data_format: channels_last
+      name: up2_4
+      size: !!python/tuple
+      - 2
+      - 2
+      trainable: false
+    inbound_nodes:
+    - - - do_8
+        - 0
+        - 0
+        - {}
+    name: up2_4
+  - class_name: Concatenate
+    config:
+      axis: -1
+      name: concatenate_4
+      trainable: false
+    inbound_nodes:
+    - - - up2_4
+        - 0
+        - 0
+        - &id027 {}
+      - - do_1
+        - 0
+        - 0
+        - *id027
+    name: concatenate_4
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_41
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_4
+        - 0
+        - 0
+        - {}
+    name: c1x1_41
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_49
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_41
+        - 0
+        - 0
+        - {}
+    name: relu_49
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_17
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_49
+        - 0
+        - 0
+        - {}
+    name: c3x3_17
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_50
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_17
+        - 0
+        - 0
+        - {}
+    name: relu_50
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id008
+      name: c1x1_43
+      padding: valid
+      strides: *id009
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_4
+        - 0
+        - 0
+        - {}
+    name: c1x1_43
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_42
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_50
+        - 0
+        - 0
+        - {}
+    name: c1x1_42
+  - class_name: Add
+    config:
+      name: add_17
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_43
+        - 0
+        - 0
+        - &id028 {}
+      - - c1x1_42
+        - 0
+        - 0
+        - *id028
+    name: add_17
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_51
+      trainable: false
+    inbound_nodes:
+    - - - add_17
+        - 0
+        - 0
+        - {}
+    name: relu_51
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id004
+      name: c1x1_44
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_51
+        - 0
+        - 0
+        - {}
+    name: c1x1_44
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_52
+      trainable: false
+    inbound_nodes:
+    - - - c1x1_44
+        - 0
+        - 0
+        - {}
+    name: relu_52
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 32
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id005
+      name: c3x3_18
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_52
+        - 0
+        - 0
+        - {}
+    name: c3x3_18
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_53
+      trainable: false
+    inbound_nodes:
+    - - - c3x3_18
+        - 0
+        - 0
+        - {}
+    name: relu_53
+  - class_name: Conv2D
+    config:
+      activation: linear
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: *id006
+      name: c1x1_45
+      padding: same
+      strides: *id002
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - relu_53
+        - 0
+        - 0
+        - {}
+    name: c1x1_45
+  - class_name: Add
+    config:
+      name: add_18
+      trainable: false
+    inbound_nodes:
+    - - - relu_51
+        - 0
+        - 0
+        - &id029 {}
+      - - c1x1_45
+        - 0
+        - 0
+        - *id029
+    name: add_18
+  - class_name: Activation
+    config:
+      activation: relu
+      name: relu_54
+      trainable: false
+    inbound_nodes:
+    - - - add_18
+        - 0
+        - 0
+        - {}
+    name: relu_54
+  - class_name: Dropout
+    config:
+      name: do_9
+      noise_shape: null
+      rate: 0.05
+      seed: null
+      trainable: false
+    inbound_nodes:
+    - - - relu_54
+        - 0
+        - 0
+        - {}
+    name: do_9
+  - class_name: DynamicTrimmingLayer
+    config:
+      data_format: channels_last
+      name: dtrim
+      ndim: 4
+      trainable: false
+    inbound_nodes:
+    - - - input
+        - 0
+        - 0
+        - &id030 {}
+      - - do_9
+        - 0
+        - 0
+        - *id030
+    name: dtrim
+  - class_name: DilatedConv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      dilation_rate: !!python/tuple
+      - 6
+      - 6
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 3
+      - 3
+      name: dilated_conv2d_1
+      padding: same
+      strides: &id031 !!python/tuple
+      - 1
+      - 1
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: dilated_conv2d_1
+  - class_name: DilatedConv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      dilation_rate: !!python/tuple
+      - 12
+      - 12
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 3
+      - 3
+      name: dilated_conv2d_2
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: dilated_conv2d_2
+  - class_name: DilatedConv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      dilation_rate: !!python/tuple
+      - 18
+      - 18
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 3
+      - 3
+      name: dilated_conv2d_3
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: dilated_conv2d_3
+  - class_name: DilatedConv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      dilation_rate: !!python/tuple
+      - 24
+      - 24
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 3
+      - 3
+      name: dilated_conv2d_4
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: dilated_conv2d_4
+  - class_name: DilatedConv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      dilation_rate: !!python/tuple
+      - 30
+      - 30
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 3
+      - 3
+      name: dilated_conv2d_5
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: dilated_conv2d_5
+  - class_name: DilatedConv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      dilation_rate: !!python/tuple
+      - 36
+      - 36
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 3
+      - 3
+      name: dilated_conv2d_6
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: dilated_conv2d_6
+  - class_name: Conv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: &id033 !!python/tuple
+      - 1
+      - 1
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 1
+      - 1
+      name: conv2d_1
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - dtrim
+        - 0
+        - 0
+        - {}
+    name: conv2d_1
+  - class_name: Concatenate
+    config:
+      axis: 3
+      name: concatenate_5
+      trainable: false
+    inbound_nodes:
+    - - - dilated_conv2d_1
+        - 0
+        - 0
+        - &id032 {}
+      - - dilated_conv2d_2
+        - 0
+        - 0
+        - *id032
+      - - dilated_conv2d_3
+        - 0
+        - 0
+        - *id032
+      - - dilated_conv2d_4
+        - 0
+        - 0
+        - *id032
+      - - dilated_conv2d_5
+        - 0
+        - 0
+        - *id032
+      - - dilated_conv2d_6
+        - 0
+        - 0
+        - *id032
+      - - conv2d_1
+        - 0
+        - 0
+        - *id032
+    name: concatenate_5
+  - class_name: Conv2D
+    config:
+      activation: relu
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id033
+      filters: 64
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 1
+      - 1
+      name: conv2d_2
+      padding: same
+      strides: *id031
+      trainable: false
+      use_bias: true
+    inbound_nodes:
+    - - - concatenate_5
+        - 0
+        - 0
+        - {}
+    name: conv2d_2
+  - class_name: Conv2D
+    config:
+      activation: sigmoid
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 1
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 1
+      - 1
+      name: lumen_pred
+      padding: same
+      strides: *id009
+      trainable: true
+      use_bias: true
+    inbound_nodes:
+    - - - conv2d_2
+        - 0
+        - 0
+        - {}
+    name: lumen_pred
+  - class_name: Conv2D
+    config:
+      activation: sigmoid
+      activity_regularizer: null
+      bias_constraint: null
+      bias_initializer:
+        class_name: Zeros
+        config: {}
+      bias_regularizer: null
+      data_format: channels_last
+      dilation_rate: *id001
+      filters: 1
+      kernel_constraint: null
+      kernel_initializer:
+        class_name: VarianceScaling
+        config:
+          distribution: uniform
+          mode: fan_avg
+          scale: 1.0
+          seed: null
+      kernel_regularizer: null
+      kernel_size: !!python/tuple
+      - 1
+      - 1
+      name: boundary_pred
+      padding: same
+      strides: *id009
+      trainable: true
+      use_bias: true
+    inbound_nodes:
+    - - - conv2d_2
+        - 0
+        - 0
+        - {}
+    name: boundary_pred
+  name: RxUnet-W1-C1-L4-B2-D0.05
+  output_layers:
+  - - lumen_pred
+    - 0
+    - 0
+  - - boundary_pred
+    - 0
+    - 0
+keras_version: 2.2.4
