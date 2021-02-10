@@ -24,7 +24,7 @@ cd time-lapse/
 pip install .
 ```
 
-You might have to authenticate with your github account in order to install all necessary dependencies during this step.
+Note that certain versions of ```pip``` might have trouble resolving the dependencies as there are some older versions involved. In such a case, try using ```pip install --use-deprecated=legacy-resolver .``` instead.
 
 ## Run the segmentation
 
