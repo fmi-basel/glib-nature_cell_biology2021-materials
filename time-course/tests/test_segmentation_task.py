@@ -13,7 +13,7 @@ from instance_orgs.tasks.segmentation import DEFAULT_MODEL
 from instance_orgs.tasks.segmentation import RunSegmentationModelTask
 
 TEST_DATA = os.path.join(os.path.dirname(__file__), 'data', 'mini_40x.tif')
-TEST_DATA_SHAPE = (2, 3000, 3000)
+TEST_DATA_SHAPE = (2, 1900, 2400)
 
 
 def test_data_is_available():
@@ -58,4 +58,4 @@ def test_segmentation_task(tmpdir):
     assert segmentation.shape == TEST_DATA_SHAPE[1:]
 
     assert segmentation.min() == 0
-    assert segmentation.max() == 4
+    assert segmentation.max() == 3
