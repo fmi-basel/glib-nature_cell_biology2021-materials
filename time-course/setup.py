@@ -20,5 +20,6 @@ setup(
         'numba==0.49.0',
         'tqdm==4.46.0',
     ],
+    include_package_data=True,
     extras_require={'gpu': [f'tensorflow-gpu{TF_VERSION}']},
 )
