@@ -12,24 +12,21 @@ import tensorflow as tf
 from instance_orgs.tasks.segmentation import DEFAULT_MODEL
 from instance_orgs.tasks.segmentation import RunSegmentationModelTask
 
-
 TEST_DATA = os.path.join(os.path.dirname(__file__), 'data', 'mini_40x.tif')
 TEST_DATA_SHAPE = (2, 3000, 3000)
 
 
-
-                      
 def test_data_is_available():
     assert os.path.exists(TEST_DATA)
     stack = imread(TEST_DATA)
     assert stack.shape == TEST_DATA_SHAPE
+
 
 @pytest.mark.parametrize('model_folder', [DEFAULT_MODEL['model_folder']])
 def test_model_is_available(model_folder):
     assert tf.saved_model.contains_saved_model(model_folder)
 
 
-    
 def test_segmentation_task(tmpdir):
     '''segmentation workflow on the test data.
     '''
@@ -50,11 +47,11 @@ def test_segmentation_task(tmpdir):
         raise RuntimeError(
             'Luigi failed to run the workflow! Exit code: {}'.format(result))
 
-
     assert os.path.exists(os.path.join(output_folder, 'segmentation.log'))
     assert len(glob.glob(os.path.join(output_folder, '*'))) == 2
-    
-    segmentation_path = os.path.join(output_folder, os.path.basename(TEST_DATA))
+
+    segmentation_path = os.path.join(output_folder,
+                                     os.path.basename(TEST_DATA))
     assert os.path.exists(segmentation_path)
 
     segmentation = imread(segmentation_path)
@@ -62,4 +59,3 @@ def test_segmentation_task(tmpdir):
 
     assert segmentation.min() == 0
     assert segmentation.max() == 4
-
