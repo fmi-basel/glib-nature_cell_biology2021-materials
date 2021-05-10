@@ -23,4 +23,3 @@ If you decide to use materials from this repository in a published work, please 
 ## License
 This project is licensed under MIT License.
 
-Copyright (c) 2021 Qiutan Yang (FMI), Markus Rempfler (FMI), Dario Vischi (FMI)
