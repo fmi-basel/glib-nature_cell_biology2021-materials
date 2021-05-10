@@ -17,7 +17,7 @@ Further information are given in the README.md files of the corresponding subfol
 # Citation 
 If you decide to use materials from this repository in a published work, please kindly cite us using the following bibliography:
 
-@Article{glaes, AUTHOR = {...}, TITLE = {Cell fate coordinates mechano-osmotic forces in intestinal crypt formation}, JOURNAL = {Nature}, VOLUME = {...}, YEAR = {...}, NUMBER = {...}, ARTICLE NUMBER = {...}, URL = {...}, DOI = {...} }
+@Article{glaes, AUTHOR = {Qiutan Yang, Shi-Lei Xue, Chii Jou Chan, Markus Rempfler, Dario Vischi, Francisca Maurer Gutierrez, Takashi Hiiragi, Edouard Hannezo, Prisca Liberali}, TITLE = {Cell fate coordinates mechano-osmotic forces in intestinal crypt formation}, JOURNAL = {Nature Cell Biology}, VOLUME = {...}, YEAR = {...}, NUMBER = {...}, ARTICLE NUMBER = {...}, URL = {...}, DOI = {...} }
 
 
 ## License
