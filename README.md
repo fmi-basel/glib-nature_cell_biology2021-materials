@@ -6,7 +6,10 @@ This repository contains three subfolders with methods of the Paper "Cell fate c
 
 * ```time-lapse/```: Image Processing Pipeline for 2D/3D organoid segmentation - time lapse samples (based on LifeAct signal)
 
-* ```TODO/```: Measurement of Villi distance
+* ```Distance/```: Measurement of distance between villi
+
+* ```Label/```: lable of single-cell areas on in vivo sections
+
 
 Further information are given in the README.md files of the corresponding subfolders. Note that you may require different virtual environments for the different parts due to conflicting dependencies.
 
